@@ -1,0 +1,17 @@
+{
+  "name": "thesacreddrop-leaderboard-monorepo",
+  "version": "1.0.0",
+  "description": "Monorepo for The Sacred Drop Leaderboard",
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend && npm run dev",
+    "start:frontend": "cd frontend && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "seed": "cd backend && node seed-atlas.js",
+    "build": "cd frontend && npm run build",
+    "start:prod": "cd backend && npm start"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
