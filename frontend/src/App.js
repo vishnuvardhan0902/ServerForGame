@@ -18,12 +18,13 @@ import {
 import axios from 'axios';
 
 // Configure axios defaults with proper CORS credentials
-// In production, the API is served from the same origin, so we use a relative URL
+// For production, this will be the backend Render URL
 const API_URL = process.env.REACT_APP_API_URL || '';
-const baseURL = API_URL ? API_URL : '';
-axios.defaults.baseURL = baseURL;
+console.log('Using API URL:', API_URL);
+axios.defaults.baseURL = API_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
-axios.defaults.withCredentials = true;
+// Don't use credentials for cross-origin requests to Render
+axios.defaults.withCredentials = false;
 
 function App() {
   const [players, setPlayers] = useState([]);
@@ -41,9 +42,9 @@ function App() {
       setLoading(true);
       setError(null);
       const apiEndpoint = '/api/leaderboard';
-      console.log('Fetching from:', baseURL + apiEndpoint);
+      console.log('Fetching from:', API_URL + apiEndpoint);
       const response = await axios.get(apiEndpoint, {
-        withCredentials: true,
+        withCredentials: false,
         headers: {
           'Content-Type': 'application/json'
         }
@@ -65,7 +66,7 @@ function App() {
         name,
         score: parseInt(score)
       }, {
-        withCredentials: true,
+        withCredentials: false,
         headers: {
           'Content-Type': 'application/json'
         }

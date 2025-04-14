@@ -14,7 +14,8 @@ const corsOptions = {
   origin: [
     'http://localhost:3000', 
     'http://localhost:3001',
-    'https://serverforgame-thesacreddrop.onrender.com'
+    'https://serverforgame-thesacreddrop.onrender.com',
+    'https://thesacreddrop-leaderboard.onrender.com'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
