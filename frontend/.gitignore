@@ -6,7 +6,8 @@
 # testing
 /coverage
 
-
+# production
+# /build - commented out to include build folder in git
 
 # misc
 .DS_Store

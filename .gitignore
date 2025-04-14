@@ -3,10 +3,10 @@ node_modules/
 /.pnp
 .pnp.js
 
-# Build outputs
-/frontend/build/
-/build/
-/dist/
+# Build outputs - commented out to include build folder
+# /frontend/build/
+# /build/
+# /dist/
 
 # Environment variables
 .env
