@@ -70,6 +70,21 @@ The application will be available at:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:4001
 
+## Deployment
+
+### Deploying to Render
+
+This project includes a `render.yaml` file for easy deployment to [Render](https://render.com/):
+
+1. Create a new Render account if you don't have one
+2. Connect your GitHub/GitLab repository to Render
+3. Create a new "Blueprint" and select your repository
+4. Render will automatically detect the `render.yaml` file
+5. Set up your environment variables:
+   - `MONGODB_URI`: Your MongoDB Atlas connection string
+
+The application will automatically build and deploy according to the configuration in `render.yaml`.
+
 ## Features
 
 - Display top 10 players in the leaderboard
