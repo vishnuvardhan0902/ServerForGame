@@ -124,6 +124,45 @@ app.delete('/api/leaderboard/:id', async (req, res) => {
   }
 });
 
+// Update player by ID
+app.put('/api/leaderboard/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, score } = req.body;
+    console.log('Updating player with ID:', id, 'New data:', { name, score });
+    
+    // Validate input
+    if ((!name && score === undefined) || (score !== undefined && typeof score !== 'number')) {
+      return res.status(400).json({ message: 'Invalid input data' });
+    }
+    
+    // Create update object with only provided fields
+    const updateData = {};
+    if (name) updateData.name = name;
+    if (score !== undefined) updateData.score = score;
+    
+    // Find and update the player
+    const updatedPlayer = await Player.findByIdAndUpdate(
+      id, 
+      updateData,
+      { new: true, runValidators: true }
+    );
+    
+    if (!updatedPlayer) {
+      return res.status(404).json({ message: 'Player not found' });
+    }
+    
+    console.log('Player updated:', updatedPlayer);
+    
+    // Get updated leaderboard
+    const players = await Player.find().sort({ score: -1 }).limit(10);
+    res.status(200).json(players);
+  } catch (err) {
+    console.error('Error updating player:', err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Determine the correct build path for frontend files
 let frontendBuildPath = path.join(__dirname, '../frontend/build');
 
