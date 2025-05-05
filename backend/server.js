@@ -100,6 +100,30 @@ app.post('/api/leaderboard', async (req, res) => {
   }
 });
 
+// Delete player by ID
+app.delete('/api/leaderboard/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log('Deleting player with ID:', id);
+    
+    // Find and delete the player
+    const deletedPlayer = await Player.findByIdAndDelete(id);
+    
+    if (!deletedPlayer) {
+      return res.status(404).json({ message: 'Player not found' });
+    }
+    
+    console.log('Player deleted:', deletedPlayer);
+    
+    // Get updated leaderboard
+    const players = await Player.find().sort({ score: -1 }).limit(10);
+    res.status(200).json(players);
+  } catch (err) {
+    console.error('Error deleting player:', err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Determine the correct build path for frontend files
 let frontendBuildPath = path.join(__dirname, '../frontend/build');
 

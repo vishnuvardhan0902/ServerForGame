@@ -13,8 +13,10 @@ import {
   TextField,
   Button,
   AppBar,
-  Toolbar
+  Toolbar,
+  IconButton
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 
 // Configure axios defaults with proper CORS credentials
@@ -81,6 +83,26 @@ function App() {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      await axios.delete(`/api/leaderboard/${id}`, {
+        withCredentials: false,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      fetchLeaderboard();
+    } catch (error) {
+      console.error('Error deleting player:', error);
+      setError('Failed to delete player. Please try again.');
+      setLoading(false);
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -134,6 +156,7 @@ function App() {
                   <TableCell>Player Name</TableCell>
                   <TableCell align="right">Score</TableCell>
                   <TableCell>Date</TableCell>
+                  <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -143,6 +166,15 @@ function App() {
                     <TableCell>{player.name}</TableCell>
                     <TableCell align="right">{player.score}</TableCell>
                     <TableCell>{new Date(player.date).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <IconButton 
+                        aria-label="delete" 
+                        color="error"
+                        onClick={() => handleDelete(player._id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
